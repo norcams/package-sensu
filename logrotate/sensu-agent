@@ -1,0 +1,13 @@
+/var/log/sensu/sensu-agent.log {
+  compress
+  copytruncate
+  daily
+  dateext
+  delaycompress
+  maxsize 100M
+  missingok
+  rotate 7
+  postrotate
+    /bin/systemctl restart rsyslog
+  endscript
+}

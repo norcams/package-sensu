@@ -1,12 +1,12 @@
 NAME=sensu
-VERSION=6.3.0
+VERSION=6.6.6
 PACKAGE_VERSION=1
 DESCRIPTION=package.description
 URL=package.url
 MAINTAINER="https://github.com/norcams"
 RELVERSION=7
-GOVERSION=1.16.3
-WEBVERSION=1.1.0
+GOVERSION=1.17.6
+WEBVERSION=1.2.0
 
 .PHONY: default
 default: deps build rpm
@@ -24,7 +24,7 @@ clean:
 
 .PHONY: deps
 deps:
-	yum install -y gcc rpm-build centos-release-scl epel-release curl git yarn
+	yum install -y gcc wget rpm-build centos-release-scl epel-release curl git yarn
 	yum install -y rh-ruby23 rh-ruby23-ruby-devel
 	source /opt/rh/rh-ruby23/enable; gem install -N fpm
 	wget -O /tmp/go$(GOVERSION).linux-amd64.tar.gz https://golang.org/dl/go$(GOVERSION).linux-amd64.tar.gz
@@ -38,6 +38,7 @@ build:
 	mkdir -p /install-agent/usr/sbin
 	mkdir -p /install-agent/etc/sensu
 	mkdir -p /install-agent/etc/rsyslog.d
+	mkdir -p /install-agent/etc/logrotate.d
 	mkdir -p /install-agent/lib/systemd/system
 	mkdir -p /install-agent/var/run/sensu
 	mkdir -p /install-agent/var/log/sensu
@@ -45,6 +46,7 @@ build:
 	mkdir -p /install-agent/var/cache/sensu/sensu-agent
 	cp sensu-agent.service /install-agent/lib/systemd/system
 	cp rsyslog/99-sensu-agent.conf /install-agent/etc/rsyslog.d/99-sensu-agent.conf
+	cp logrotate/sensu-agent /install-agent/etc/logrotate.d/sensu-agent
 	cd vendor/sensu-go; /usr/local/go/bin/go build -ldflags '-X "github.com/sensu/sensu-go/version.Version=$(VERSION)" -X "github.com/sensu/sensu-go/version.BuildDate=$(shell date +%Y-%m-%d)" -X "github.com/sensu/sensu-go/version.BuildSHA='`git rev-parse HEAD`'"' -o /install-agent/usr/sbin/sensu-agent ./cmd/sensu-agent
 	# Backend
 	mkdir -p /install-backend/usr/sbin
