@@ -82,6 +82,7 @@ rpm:
 		--iteration "$(PACKAGE_VERSION).el$(RELVERSION)" \
 		--description "Sensu Go Agent" \
 		--url "$(shelpl cat $(URL))" \
+		--depends logroate \
 		--maintainer "$(MAINTAINER)" \
 		--before-install preinstall.sh \
 		--after-install postinstall-agent.sh \
@@ -107,14 +108,14 @@ rpm:
                 --maintainer "$(MAINTAINER)" \
                 -C /install-ctl/ \
 		.
-		source /opt/rh/rh-ruby23/enable; fpm -s dir -t rpm \
-	                -n $(NAME)-web \
-	                -v $(WEBVERSION) \
-	                --iteration "$(PACKAGE_VERSION).el$(RELVERSION)" \
-	                --description "Sensu Go Web" \
-	                --url "$(shelpl cat $(URL))" \
-	                --maintainer "$(MAINTAINER)" \
-									--before-install preinstall.sh \
-	                --after-install postinstall-web.sh \
-	                -C /install-web/ \
-			.
+	source /opt/rh/rh-ruby23/enable; fpm -s dir -t rpm \
+                -n $(NAME)-web \
+                -v $(WEBVERSION) \
+                --iteration "$(PACKAGE_VERSION).el$(RELVERSION)" \
+                --description "Sensu Go Web" \
+                --url "$(shelpl cat $(URL))" \
+                --maintainer "$(MAINTAINER)" \
+		--before-install preinstall.sh \
+                --after-install postinstall-web.sh \
+                -C /install-web/ \
+		.
