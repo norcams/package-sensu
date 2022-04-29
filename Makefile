@@ -1,5 +1,5 @@
 NAME=sensu
-VERSION=6.6.6
+VERSION=6.7.1
 PACKAGE_VERSION=1
 DESCRIPTION=package.description
 URL=package.url
@@ -82,7 +82,7 @@ rpm:
 		--iteration "$(PACKAGE_VERSION).el$(RELVERSION)" \
 		--description "Sensu Go Agent" \
 		--url "$(shelpl cat $(URL))" \
-		--depends logroate \
+		--depends logrotate \
 		--maintainer "$(MAINTAINER)" \
 		--before-install preinstall.sh \
 		--after-install postinstall-agent.sh \
