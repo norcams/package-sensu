@@ -1,11 +1,11 @@
 NAME=sensu
-VERSION=6.7.1
+VERSION=6.7.4
 PACKAGE_VERSION=1
 DESCRIPTION=package.description
 URL=package.url
 MAINTAINER="https://github.com/norcams"
-RELVERSION=7
-GOVERSION=1.17.6
+RELVERSION=8
+GOVERSION=1.17.12
 WEBVERSION=1.2.0
 
 .PHONY: default
@@ -24,9 +24,9 @@ clean:
 
 .PHONY: deps
 deps:
-	yum install -y gcc wget rpm-build centos-release-scl epel-release curl git yarn
-	yum install -y rh-ruby23 rh-ruby23-ruby-devel
-	source /opt/rh/rh-ruby23/enable; gem install -N fpm
+	dnf module enable nodejs:14
+	dnf install -y nodejs yarn gcc rubygems ruby-devel wget rpm-build epel-release curl git
+	gem install -N fpm
 	wget -O /tmp/go$(GOVERSION).linux-amd64.tar.gz https://golang.org/dl/go$(GOVERSION).linux-amd64.tar.gz
 	tar -C /usr/local -xzf /tmp/go$(GOVERSION).linux-amd64.tar.gz
 
@@ -76,7 +76,7 @@ build:
 
 .PHONY: rpm
 rpm:
-	source /opt/rh/rh-ruby23/enable; fpm -s dir -t rpm \
+	fpm -s dir -t rpm \
 		-n $(NAME)-agent \
 		-v $(VERSION) \
 		--iteration "$(PACKAGE_VERSION).el$(RELVERSION)" \
@@ -88,7 +88,7 @@ rpm:
 		--after-install postinstall-agent.sh \
 		-C /install-agent/ \
 		.
-	source /opt/rh/rh-ruby23/enable; fpm -s dir -t rpm \
+	fpm -s dir -t rpm \
                 -n $(NAME)-backend \
                 -v $(VERSION) \
                 --iteration "$(PACKAGE_VERSION).el$(RELVERSION)" \
@@ -99,7 +99,7 @@ rpm:
                 --after-install postinstall-backend.sh \
                 -C /install-backend/ \
 		.
-	source /opt/rh/rh-ruby23/enable; fpm -s dir -t rpm \
+	fpm -s dir -t rpm \
                 -n $(NAME)-cli \
                 -v $(VERSION) \
                 --iteration "$(PACKAGE_VERSION).el$(RELVERSION)" \
@@ -108,7 +108,7 @@ rpm:
                 --maintainer "$(MAINTAINER)" \
                 -C /install-ctl/ \
 		.
-	source /opt/rh/rh-ruby23/enable; fpm -s dir -t rpm \
+	fpm -s dir -t rpm \
                 -n $(NAME)-web \
                 -v $(WEBVERSION) \
                 --iteration "$(PACKAGE_VERSION).el$(RELVERSION)" \
