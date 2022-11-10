@@ -25,7 +25,11 @@ clean:
 deps:
 	dnf module reset ruby -y
 	dnf install -y @ruby:2.7
-	dnf install -y gcc rpm-build git yarn curl golang
+	dnf install -y @nodejs:14
+	dnf install -y gcc rpm-build ruby-devel git curl golang
+	curl --silent --location https://dl.yarnpkg.com/rpm/yarn.repo | sudo tee /etc/yum.repos.d/yarn.repo
+	rpm --import https://dl.yarnpkg.com/rpm/pubkey.gpg
+	dnf install -y yarn
 	gem install -N fpm
 
 .PHONY: build
