@@ -77,7 +77,7 @@ build:
 
 .PHONY: rpm
 rpm:
-	fpm -s dir -t rpm \
+	/usr/local/bin/fpm -s dir -t rpm \
 		-n $(NAME)-agent \
 		-v $(VERSION) \
 		--iteration "$(PACKAGE_VERSION).el$(RELVERSION)" \
@@ -91,40 +91,40 @@ rpm:
 		--rpm-tag '%define _build_id_links none' \
 		--rpm-tag '%undefine _missing_build_ids_terminate_build' \
 		.
-	fpm -s dir -t rpm \
+	/usr/local/bin/fpm -s dir -t rpm \
 		-n $(NAME)-backend \
-    -v $(VERSION) \
-    --iteration "$(PACKAGE_VERSION).el$(RELVERSION)" \
-    --description "Sensu Go Backend" \
-    --url "$(shelpl cat $(URL))" \
-    --maintainer "$(MAINTAINER)" \
-    --before-install preinstall.sh \
-    --after-install postinstall-backend.sh \
-    -C /install-backend/ \
+		-v $(VERSION) \
+    	--iteration "$(PACKAGE_VERSION).el$(RELVERSION)" \
+    	--description "Sensu Go Backend" \
+    	--url "$(shelpl cat $(URL))" \
+    	--maintainer "$(MAINTAINER)" \
+    	--before-install preinstall.sh \
+    	--after-install postinstall-backend.sh \
+    	-C /install-backend/ \
 		--rpm-tag '%define _build_id_links none' \
 		--rpm-tag '%undefine _missing_build_ids_terminate_build' \
 		.
-	fpm -s dir -t rpm \
-    -n $(NAME)-cli \
-    -v $(VERSION) \
-    --iteration "$(PACKAGE_VERSION).el$(RELVERSION)" \
-    --description "Sensu Go Cli" \
-    --url "$(shelpl cat $(URL))" \
-    --maintainer "$(MAINTAINER)" \
-    -C /install-ctl/ \
+	/usr/local/bin/fpm -s dir -t rpm \
+    	-n $(NAME)-cli \
+    	-v $(VERSION) \
+    	--iteration "$(PACKAGE_VERSION).el$(RELVERSION)" \
+    	--description "Sensu Go Cli" \
+    	--url "$(shelpl cat $(URL))" \
+    	--maintainer "$(MAINTAINER)" \
+    	-C /install-ctl/ \
 		--rpm-tag '%define _build_id_links none' \
 		--rpm-tag '%undefine _missing_build_ids_terminate_build' \
 		.
-	fpm -s dir -t rpm \
-    -n $(NAME)-web \
-    -v $(WEBVERSION) \
-    --iteration "$(PACKAGE_VERSION).el$(RELVERSION)" \
-    --description "Sensu Go Web" \
-    --url "$(shelpl cat $(URL))" \
-    --maintainer "$(MAINTAINER)" \
+	/usr/local/bin/fpm -s dir -t rpm \
+    	-n $(NAME)-web \
+    	-v $(WEBVERSION) \
+    	--iteration "$(PACKAGE_VERSION).el$(RELVERSION)" \
+    	--description "Sensu Go Web" \
+    	--url "$(shelpl cat $(URL))" \
+    	--maintainer "$(MAINTAINER)" \
 		--before-install preinstall.sh \
-    --after-install postinstall-web.sh \
+    	--after-install postinstall-web.sh \
 		--rpm-tag '%define _build_id_links none' \
 		--rpm-tag '%undefine _missing_build_ids_terminate_build' \
-    -C /install-web/ \
+    	-C /install-web/ \
 		.
