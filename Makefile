@@ -1,6 +1,6 @@
 NAME=sensu
-VERSION=6.9.0
-PACKAGE_VERSION=1
+VERSION=6.9.2
+PACKAGE_VERSION=2
 DESCRIPTION=package.description
 URL=package.url
 MAINTAINER="https://github.com/norcams"
