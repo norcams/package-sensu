@@ -38,7 +38,8 @@ build:
 	cp sensu-web.service /install-web/lib/systemd/system
 	cd vendor/sensu-web; yarn install #--modules-folder /install-web/opt/sensu/yarn/node_modules --ignore-scripts
 	rsync -ah --exclude='.cache/' --exclude='.git/' vendor/sensu-web/ /install-web/opt/sensu/web
-	cp -a vendor/sensu-web/.git/HEAD /install-web/opt/sensu/web/.
+	/install-web/opt/sensu/web/.git
+	cp -a vendor/sensu-web/.git/HEAD /install-web/opt/sensu/web/.git/.
 
 .PHONY: rpm
 rpm:
