@@ -1,6 +1,6 @@
 NAME=sensu
-VERSION=6.9.2
-PACKAGE_VERSION=2
+VERSION=6.10.0
+PACKAGE_VERSION=1
 DESCRIPTION=package.description
 URL=package.url
 MAINTAINER="https://github.com/norcams"
@@ -100,3 +100,13 @@ rpm:
 		--rpm-tag '%define _build_id_links none' \
 		--rpm-tag '%undefine _missing_build_ids_terminate_build' \
 		.
+	/usr/local/bin/fpm -s dir -t deb \
+		-n $(NAME)-agent \
+		-v $(VERSION) \
+		--description "Sensu Go Agent" \
+		--url "$(shelpl cat $(URL))" \
+		--depends logrotate \
+		--maintainer "$(MAINTAINER)" \
+		--before-install preinstall.sh \
+		--after-install postinstall-agent.sh \
+		-C /install-agent/ \
