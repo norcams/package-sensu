@@ -114,3 +114,13 @@ deb:
 		--after-install postinstall-agent.sh \
 		-C /install-agent/ \
 		--deb-no-default-config-files \
+		.
+	/usr/local/bin/fpm -s dir -t deb \
+    	-n $(NAME)-cli \
+    	-v $(VERSION) \
+    	--description "Sensu Go Cli" \
+    	--url "$(shelpl cat $(URL))" \
+    	--maintainer "$(MAINTAINER)" \
+    	-C /install-ctl/ \
+		--deb-no-default-config-files \
+		.
