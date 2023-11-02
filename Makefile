@@ -100,6 +100,9 @@ rpm:
 		--rpm-tag '%define _build_id_links none' \
 		--rpm-tag '%undefine _missing_build_ids_terminate_build' \
 		.
+
+.PHONY: deb
+deb:
 	/usr/local/bin/fpm -s dir -t deb \
 		-n $(NAME)-agent \
 		-v $(VERSION) \
@@ -110,3 +113,4 @@ rpm:
 		--before-install preinstall.sh \
 		--after-install postinstall-agent.sh \
 		-C /install-agent/ \
+		--deb-no-default-config-files \
