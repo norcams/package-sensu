@@ -1,5 +1,5 @@
 NAME=sensu
-VERSION=6.10.0
+VERSION=6.13.1
 PACKAGE_VERSION=1
 DESCRIPTION=package.description
 URL=package.url
@@ -22,7 +22,7 @@ clean:
 .PHONY: deps
 deps:
 	dnf module reset ruby -y
-	dnf install -y @ruby:3.0
+	dnf install -y @ruby:3.1
 	dnf install -y gcc rpm-build ruby-devel git curl golang
 	gem install -N fpm
 
